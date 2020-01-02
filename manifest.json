@@ -6,7 +6,10 @@
   "content_scripts": [
     {
       "js": ["src/rap/mock/main.js"],
-      "matches": ["http://10.100.21.1/repository/*"],
+      "matches": [
+        "http://10.100.21.1/repository/editor*",
+        "http://10.100.21.1/organization/repository/editor*"
+      ],
       "all_frames": true
     }
   ],

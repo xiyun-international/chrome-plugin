@@ -12,27 +12,49 @@ function injectCopyButton(btnWrapper) {
   btnWrapper.appendChild(injectBtn);
   injectBtn.addEventListener('click', () => {
     let api = document.querySelector("#root > article > div.body > article > div.body > div > article.InterfaceEditor > div.InterfaceSummary > ul > li:nth-child(1) > a").innerText;
-    if (/^\/api\/.*/.test(api)) {
-      api = api.replace('/api', '');
-      const response = document.querySelector('#root > article > div.body > article > div.body > div > article.InterfaceEditor > section:nth-child(4) > div.footer > div > div.result-template.col-6 > pre').innerText;
-      const result = `"POST ${api}": ${response},`;
-      new ClipboardJS('#copy-api', {
-        text: () => result,
-      });
-      console.info('接口复制成功');
-    } else {
-      alert('api 格式不符合规范');
-    }
+    // if (/^\/api\/.*/.test(api)) {
+    //   api = api.replace('/api', '');
+    // }
+    const response = document.querySelector('#root > article > div.body > article > div.body > div > article.InterfaceEditor > section:nth-child(4) > div.footer > div > div.result-template.col-6 > pre').innerText;
+    const result = `"POST ${api}": ${response},`;
+    new ClipboardJS('#copy-api', {
+      text: () => result,
+    });
+    console.info('接口复制成功');
   })
+}
+
+/**
+ * 生成按钮包裹容器
+ */
+function generateBtnWrapper() {
+  const btnWrapper = document.createElement('div');
+  btnWrapper.className = "InterfaceEditorToolbar";
+  injectCopyButton(btnWrapper);
+  const InterfaceEditor = document.querySelector("#root > article > div.body > article > div.body > div > article.InterfaceEditor");
+  InterfaceEditor.prepend(btnWrapper);
+}
+
+/**
+ * 注入按钮
+ * @param {DOMElement} InterfaceEditor 
+ */
+function runInjectBtn(InterfaceEditor) {
+  const btnWrapper = InterfaceEditor.firstChild;
+  if (btnWrapper.className === "InterfaceEditorToolbar") {
+    injectCopyButton(btnWrapper);
+  } else if (btnWrapper.className === "InterfaceSummary") {
+    generateBtnWrapper();
+  }
 }
 
 // 当文档各节点加载完成后，注入按钮
 let init = true;
 const observer = new MutationObserver(function (mutations, observer) {
-  const btnWrapper = document.querySelector("#root > article > div.body > article > div.body > div > article.InterfaceEditor > div.InterfaceEditorToolbar");
-  if (init && btnWrapper) {
+  const InterfaceEditor = document.querySelector("#root > article > div.body > article > div.body > div > article.InterfaceEditor");
+  if (init && InterfaceEditor) {
     init = false;
-    injectCopyButton(btnWrapper);
+    runInjectBtn(InterfaceEditor)
   }
 });
 
@@ -41,8 +63,8 @@ const hisCopy = history.pushState;
 history.pushState = function () {
   hisCopy.apply(history, arguments);
   setTimeout(() => {
-    const btnWrapper = document.querySelector("#root > article > div.body > article > div.body > div > article.InterfaceEditor > div.InterfaceEditorToolbar");
-    injectCopyButton(btnWrapper);
+    const InterfaceEditor = document.querySelector("#root > article > div.body > article > div.body > div > article.InterfaceEditor");
+    runInjectBtn(InterfaceEditor)
   })
 }
 
