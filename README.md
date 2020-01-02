@@ -1,2 +1,2 @@
-# chrome-plugin-copyRAP-api
-复制 RAP 接口的 chrome 插件
+# xy-chrome-plugin
+禧云 chrome 插件仓库
