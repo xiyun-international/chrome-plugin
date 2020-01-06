@@ -2,20 +2,21 @@
   "name": "禧云 Chrome 插件",
   "description": "禧云 Chrome 插件",
   "version": "1.0",
+  "manifest_version": 2,
   "permissions": ["tabs"],
   "content_scripts": [
     {
-      "js": ["src/rap/mock/main.js"],
       "matches": [
         "http://10.100.21.1/repository/editor*",
         "http://10.100.21.1/organization/repository/editor*"
       ],
-      "all_frames": true
+      "js": [
+        "lib/jquery-3.4.1.min.js",
+        "lib/clipboard.min.js",
+        "lib/render.js",
+        "src/rap/mock/index.js"
+      ],
+      "css": ["src/rap/mock/index.css"]
     }
-  ],
-  "manifest_version": 2,
-  "web_accessible_resources": [
-    "src/rap/mock/clipboard.min.js", 
-    "src/rap/mock/inject.js"
   ]
 }
