@@ -1,9 +1,14 @@
 {
+  "version": "1.1",
   "name": "禧云 Chrome 插件",
   "description": "禧云 Chrome 插件",
-  "version": "1.1",
   "manifest_version": 2,
   "permissions": ["tabs"],
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  },
   "content_scripts": [
     {
       "matches": [
