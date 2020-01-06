@@ -1,8 +1,9 @@
-// 页面渲染完成的事件
-render(".title").then(() => {
-  // 删除 badge
+// https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Mutation_events
+$(document).on("DOMNodeInserted", ".body", () => {
   $(".badge").remove();
+});
 
+render(".title").then(() => {
   $("#root").before(`
     <div id="tools">
       <button id="mock" class="btn btn-primary edit">一键复制 Mock</button>
